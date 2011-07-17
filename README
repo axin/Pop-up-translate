@@ -1,0 +1,6 @@
+About
+
+Pop-up translate is an extension for Google Chrome browser aimed to help you
+quickly translate selected text. Unlike most of similar extensions, it uses Bing
+Translator API instead of Google Translate API, so it will continue working after
+01.12.2011 when Google will close it's translation API for free usage.
