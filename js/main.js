@@ -1,5 +1,6 @@
 document.onmouseup = function(event) {
     if(event.ctrlKey) {
-        window.alert(window.getSelection().toString());
+        document.getElementById("translation").innerHTML =
+        window.getSelection().toString();
     }
 }
