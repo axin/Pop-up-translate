@@ -1,9 +1,28 @@
-.pop-up {
-    background-color: green;
-    width: 100px;
-    height: 30px;
-    top: 50px;
-    left: 100px;
+body {
+    position: relative;
+}
+
+#pop-up {
     position: absolute;
-    /* display: none;
+    z-index: 999000;
+}
+
+#bubble {
+    background-color: #E3E3E3;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 1px #2D5AFF;
+}
+
+#translation-container {
+    display: inline-block;
+}
+
+#pronounce-icon-container {
+}
+
+#translation {
+    margin: 0.5em;
+}
+
+#pronounce-icon {
 }

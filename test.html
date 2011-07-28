@@ -8,17 +8,24 @@
     </head>
 
     <body>
-        <div id="pop-up" class="pop-up">
-            <p id="translation">Placeholder</p>
+        <div id="pop-up">
+            <div id="bubble">
+                <div id="translation-container">
+                    <p id="translation">Sample</p>
+                    <p>iii</p>
+                </div>
+                <div id="pronounce-icon-container">
+                    <img src="img/pronounce.png" width="20px" height="20px"></img>
+                </div>
+            </div>
         </div>
-
-        <p id="test">Метод getRangeAt принимает в качестве аргумента индекс Range-объекта и возвращает сам объект. Если rangeCount == 1, то работать будет только getRangeAt(0). Таким образом, мы можем получить Range-объект, полностью соответствующий текущему выделению.
-        Метод collapse сворачивает выделение в точку (каретку). Методу можно передать в качестве первого аргумента узел, в который нужно поместить каретку.
-        Метод extend принимает в качестве аргументов ссылку на контейнер и смещение (parentNode, offset), и перемещает фокусную точку в это положение.
-        Метод collapseToStart (collapseToEnd) перемещает фокусную (начальную) границу к начальной (фокусной), тем самым сворачивая выделение в каретку.
-        Метод selectAllChildren принимает в качестве единственного аргумента ссылку на узел и добавляет всех его потомков в выделение.
-        Метод addRange принимает в качестве аргумента Range-объект и добавляет его в выделение. Таким образом можно увеличить количество Range-объектов, число которых нам подскажет свойство rangeCount.
-        Метод removeRange (removeAllRanges) удаляет переданный (все) Range-объект из выделения.
-        Метод toString вернет текстовое содержимое выделения.</p>
+        <p id="test">
+            Sunflower is a very tall plant with large yellow flowers,
+            grown in gardens or for its seeds and their oil
+            that are used in cooking sunflower oil.
+        </p>
+        <p>
+            Tweet is the short high sound made by a small bird.
+        </p>
     </body>
 </html>
