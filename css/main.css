@@ -10,7 +10,8 @@ body {
 }
 
 #bubble {
-    position: absolute; /*do not change*/
+    position: relative;
+    float: left;
     background-color: #E3E3E3;
     border-radius: 5px;
     box-shadow: 0 0 5px 1px #2D5AFF;
