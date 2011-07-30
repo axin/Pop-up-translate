@@ -9,12 +9,23 @@ body {
     top: 50px;
 }
 
+.pop-up-part {
+    background-color: #E3E3E3;
+    box-shadow: 0 0 5px 1px #2D5AFF;
+}
+
 #bubble {
     position: relative;
     float: left;
-    background-color: #E3E3E3;
+    z-index: 999100;
     border-radius: 5px;
-    box-shadow: 0 0 5px 1px #2D5AFF;
+    box-shadow: none;
+}
+
+#buble-shadow {
+    position: relative;
+    float: left;
+    border-radius: 5px;
 }
 
 #translation-container {
@@ -40,4 +51,23 @@ body {
     color: #727272;
     font-family: sans-serif;
     font-size: 18px;
+}
+
+.arrow {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    -webkit-transform: rotate(45deg) skew(10deg, 10deg);
+}
+
+#arrow-up {
+    top: 0;
+    margin-top: -5px;
+}
+
+#arrow-down {
+    bottom: 0;
+    margin-bottom: -5px;
 }
