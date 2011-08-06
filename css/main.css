@@ -14,7 +14,7 @@ body {
     box-shadow: 0 0 5px 1px #3C81FF;
 }
 
-#bubble {
+#buble {
     position: relative;
     float: left;
     z-index: 999100;
