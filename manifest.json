@@ -1,12 +1,17 @@
 {
     "name": "Pop-Up Translate",
-    "version": "1.0",
+    "version": "1.0.0",
     "description": "Shows pop-up with translation of selected text.",
     "icons": {
         "16": "img/icon16.png",
         "48": "img/icon48.png",
         "128": "img/icon128.png"
     },
-    "background_page": "background.html",
-    "options_page": "options.html"
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js" : ["js/contentscript.js"]
+        }
+    ]
 }
+

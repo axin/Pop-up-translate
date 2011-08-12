@@ -13,12 +13,26 @@ var PopUp = {
     },
 
     getStyles: function() {
-        return '#' + PopUp.extId + 'pop-up {' +
+        return 'div, p, img {' +
+            'margin: 0;' +
+            'padding: 0;' +
+            'border-width: 0;' +
+        '}' +
+
+        'div {' +
+            'width: auto;' +
+            'height: auto;' +
+        '}' +
+        
+        '#' + PopUp.extId + 'pop-up {' +
             'position: absolute;' +
             'z-index: 999000;' +
-            'display: none;' +
+            //'display: none;' +
+            'max-width: 500px;' +
             'left: 50px;' +
             'top: 50px;' +
+            'font-family: ' + PopUp.Appearence.fontFamily + ';' +
+            'font-size: ' + PopUp.Appearence.fontSize + ';' +
         '}' +
 
         '.' + PopUp.extId + 'pop-up-part {' +
@@ -30,6 +44,8 @@ var PopUp = {
             'position: relative;' +
             'float: left;' +
             'z-index: 999100;' +
+            'min-width: 2em;' +
+            'min-height: 2em;' +
             'border-radius: 5px;' +
             'box-shadow: none;' +
         '}' +
@@ -42,17 +58,13 @@ var PopUp = {
 
         '#' + PopUp.extId + 'translation-container {' +
             'float: left;' +
-            'min-width: 2em;' +
-            'min-height: 2em;' +
-            'max-width: 500px;' +
             'margin-right: 30px;' +
         '}' +
 
         '#' + PopUp.extId + 'pronounce-icon-container {' +
-            'width: 20px;' +
-            'min-width: 20px;' +
-            'min-height: 20px;' +
             'position: absolute;' +
+            'width: 20px;' +
+            'height: 20px;' +
             'right: 0;' +
             'top: 50%;' +
             'padding: 0 5px;' +
@@ -62,8 +74,11 @@ var PopUp = {
         '#' + PopUp.extId + 'translation {' +
             'margin: 0.5em;' +
             'color: ' + PopUp.Appearence.fontColor + ';' +
-            'font-family: ' + PopUp.Appearence.fontFamily + ';' +
-            'font-size: ' + PopUp.Appearence.fontSize + ';' +
+        '}' +
+
+        '#' + PopUp.extId + 'pronounce-icon {' +
+             'width: 20px;' +
+             'height: 20px;' +
         '}' +
 
         '.' + PopUp.extId + 'arrow {' +
@@ -118,17 +133,16 @@ var PopUp = {
             pronounceIconContainer.setAttribute('id', PopUp.extId + 'pronounce-icon-container');
 
             var pronounceIcon = document.createElement('img'); 
-            pronounceIcon.setAttribute('src', 'img/pronounce.png');
-            pronounceIcon.setAttribute('width', '20px');
-            pronounceIcon.setAttribute('height', '20px');
+            pronounceIcon.setAttribute('id', PopUp.extId + 'pronounce-icon');
+            pronounceIcon.setAttribute('src', chrome.extension.getURL('img/pronounce.png'));
 
             var arrowUp = document.createElement('div');
             arrowUp.setAttribute('id', PopUp.extId + 'arrow-up');
-            arrowUp.setAttribute('class', PopUp.extId + 'pop-up-part arrow');
+            arrowUp.setAttribute('class', PopUp.extId + 'pop-up-part ' + PopUp.extId +'arrow');
 
             var arrowDown = document.createElement('div');
             arrowDown.setAttribute('id', PopUp.extId + 'arrow-down');
-            arrowDown.setAttribute('class', PopUp.extId + 'pop-up-part arrow');
+            arrowDown.setAttribute('class', PopUp.extId + 'pop-up-part ' + PopUp.extId +'arrow');
 
             PopUp.popUpInstance.appendChild(bubleShadow);
             bubleShadow.appendChild(buble);
@@ -138,7 +152,7 @@ var PopUp = {
             pronounceIconContainer.appendChild(pronounceIcon);
             bubleShadow.appendChild(arrowUp);
             bubleShadow.appendChild(arrowDown);
-            document.body.appendChild(PopUp.popUpInstance);
+            document.body.parentElement.insertBefore(PopUp.popUpInstance, document.body);
         }
     },
 
@@ -151,9 +165,8 @@ var PopUp = {
         if (selection != '') {
             popUp.style.display = 'block';
 
-            var tranlationTextNode = document.createTextNode(selection);
             var translationElement = document.getElementById(PopUp.extId + 'translation');
-            translationElement.appendChild(tranlationTextNode);
+            translationElement.innerText = selection;
         }
         else {
             popUp.style.display = 'none';
@@ -162,24 +175,6 @@ var PopUp = {
     }
 }
 
-//document.onmouseup = function(event) {
-    //if (event.ctrlKey) {
-        //var translation = document.getElementById("translation");
-        //var selection = window.getSelection();
-        //var popUp = document.getElementById("pop-up");
+PopUp.addToDocument();
 
-        //translation.innerHTML = selection.toString();
-        ////popUp.style.cssText = 'background-color: green; width: 100px;' +
-            ////'height: 30px; top: 50px; left: 100px; position: absolute;';
-        
-        ////debugger;
-
-        //popUp.style.top = getAbsoluteOffset(selection.anchorNode.parentNode)[1] + 'px';
-        //popUp.style.left = getAbsoluteOffset(selection.anchorNode.parentNode)[0] + 
-            //selection.anchorOffset + 'px';
-    //}
-//}
-
-window.addEventListener('load', PopUp.addToDocument, false);
 window.addEventListener('click', PopUp.toggle, false);
-
