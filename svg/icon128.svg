@@ -15,8 +15,8 @@
    id="svg3821"
    version="1.1"
    inkscape:version="0.48.1 r9760"
-   sodipodi:docname="pop-up-icon2.svg"
-   inkscape:export-filename="C:\Users\Alexey\Desktop\pop-up-icon2.png"
+   sodipodi:docname="icon128.svg"
+   inkscape:export-filename="/home/alexey/Projects/Pop-up-translate/img/icon128.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -116,7 +116,7 @@
      id="layer1"
      transform="translate(0,-924.36217)">
     <path
-       style="fill:url(#linearGradient4442);fill-opacity:1;fill-rule:nonzero;stroke:#005aff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:url(#linearGradient4442);fill-opacity:1;fill-rule:nonzero;stroke:#3c81ff;stroke-opacity:1;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
        d="M 26 6 C 14.92 6 6 14.92 6 26 L 6 84 C 6 95.08 14.92 104 26 104 L 52 104 L 64 120 L 76 104 L 102 104 C 113.08 104 122 95.08 122 84 L 122 26 C 122 14.92 113.08 6 102 6 L 26 6 z "
        id="rect3857"
        transform="translate(0,924.36217)" />

@@ -40,7 +40,7 @@ var PopUp = {
             'box-shadow: 0 0 5px 1px ' + PopUp.Appearence.shadowColor + ';' +
         '}' +
 
-        '#' + PopUp.extId + 'buble {' +
+        '#' + PopUp.extId + 'bubble {' +
             'position: relative;' +
             'float: left;' +
             'z-index: 999100;' +
@@ -50,7 +50,7 @@ var PopUp = {
             'box-shadow: none;' +
         '}' +
 
-        '#' + PopUp.extId + 'buble-shadow {' +
+        '#' + PopUp.extId + 'bubble-shadow {' +
             'position: relative;' +
             'float: left;' +
             'border-radius: 5px;' +
@@ -115,13 +115,13 @@ var PopUp = {
             PopUp.popUpInstance = document.createElement('div');
             PopUp.popUpInstance.setAttribute('id', PopUp.extId + 'pop-up');
 
-            var bubleShadow = document.createElement('div');
-            bubleShadow.setAttribute('id', PopUp.extId + 'buble-shadow');
-            bubleShadow.setAttribute('class', PopUp.extId + 'pop-up-part');
+            var bubbleShadow = document.createElement('div');
+            bubbleShadow.setAttribute('id', PopUp.extId + 'bubble-shadow');
+            bubbleShadow.setAttribute('class', PopUp.extId + 'pop-up-part');
 
-            var buble = document.createElement('div');
-            buble.setAttribute('id', PopUp.extId + 'buble');
-            buble.setAttribute('class', PopUp.extId + 'pop-up-part');
+            var bubble = document.createElement('div');
+            bubble.setAttribute('id', PopUp.extId + 'bubble');
+            bubble.setAttribute('class', PopUp.extId + 'pop-up-part');
 
             var translationContainer = document.createElement('div');
             translationContainer.setAttribute('id', PopUp.extId + 'translation-container');
@@ -144,14 +144,14 @@ var PopUp = {
             arrowDown.setAttribute('id', PopUp.extId + 'arrow-down');
             arrowDown.setAttribute('class', PopUp.extId + 'pop-up-part ' + PopUp.extId +'arrow');
 
-            PopUp.popUpInstance.appendChild(bubleShadow);
-            bubleShadow.appendChild(buble);
-            buble.appendChild(translationContainer);
+            PopUp.popUpInstance.appendChild(bubbleShadow);
+            bubbleShadow.appendChild(bubble);
+            bubble.appendChild(translationContainer);
             translationContainer.appendChild(translation);
-            buble.appendChild(pronounceIconContainer);
+            bubble.appendChild(pronounceIconContainer);
             pronounceIconContainer.appendChild(pronounceIcon);
-            bubleShadow.appendChild(arrowUp);
-            bubleShadow.appendChild(arrowDown);
+            bubbleShadow.appendChild(arrowUp);
+            bubbleShadow.appendChild(arrowDown);
             document.body.parentElement.insertBefore(PopUp.popUpInstance, document.body);
         }
     },
