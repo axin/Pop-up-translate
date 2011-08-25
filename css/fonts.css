@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Arimo';
+    src: url('../fonts/Arimo-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Arimo';
+    src: url('../fonts/Arimo-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JustMeAgainDownHere';
+    src: url('../fonts/JustMeAgainDownHere.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

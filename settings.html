@@ -2,10 +2,116 @@
 
 <html>
     <head>
-        <title>Pop-Up Translate Options</title>
+        <title>Pop-Up Translate Settings</title>
+        <link rel="stylesheet" type="text/css" href="css/settings.css">
+        <link rel="stylesheet" type="text/css" href="css/fonts.css">
+        <script type="text/javascript" src="js/settings.js"></script>
     </head>
 
     <body>
+        <div id="top-bar">
+            <div id="header">
+                <span id="title-top" class="title-part">Pop-Up</span>
+                <span id="title-bottom" class="title-part">Translate</span>
+            </div>
+        </div>
+        <div id="content-site">
+            <ul id="navigation">
+                <li id="general-tab">
+                    <div class="tab-border">
+                        <div class="tab-edge-highlight">
+                            <div class="tab-title">General</div>
+                        </div>
+                    </div>
+                </li>
+                <li id="appearence-tab">
+                    <div class="tab-border">
+                        <div class="tab-edge-highlight">
+                            <div class="tab-title">Appearence</div>
+                        </div>
+                    </div>
+                </li>
+                <li id="about-tab">
+                    <div class="tab-border">
+                        <div class="tab-edge-highlight">
+                            <div class="tab-title">About</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
+            <div id="content">
+                <div id="general" class="settings-screen">
+                    <h1>Shortcuts</h1>
+                    <hr>
+                    <div class="shortcut-container">
+                        <select>
+                            <option>None</option>
+                            <option>Ctrl</option>
+                            <option>Alt</option>
+                            <option>Shift</option>
+                            <option>Meta</option>
+                        </select>
+                        +
+                        <select>
+                            <option>None</option>
+                            <option>Ctrl</option>
+                            <option>Alt</option>
+                            <option>Shift</option>
+                            <option>Meta</option>
+                        </select>
+                        + Select - Translate to
+                        <select>
+                            <option>Russian</option>
+                            <option>English</option>
+                            <option>Franch</option>
+                        </select>
+                        <img class="remove-icon" src="img/remove.png">
+                    </div>
+                    <div class="shortcut-container">
+                        <select>
+                            <option>None</option>
+                            <option>Ctrl</option>
+                            <option>Alt</option>
+                            <option>Shift</option>
+                            <option>Meta</option>
+                        </select>
+                        +
+                        <select>
+                            <option>None</option>
+                            <option>Ctrl</option>
+                            <option>Alt</option>
+                            <option>Shift</option>
+                            <option>Meta</option>
+                        </select>
+                        + Select - Translate to
+                        <select>
+                            <option>Russian</option>
+                            <option>English</option>
+                            <option>Franch</option>
+                        </select>
+                        <img class="remove-icon" src="img/remove.png">
+                    </div>
+                    <a class="common-button">
+                        <span class="button-edge-highlight">Add</span>
+                    </a>
+                </div>
+
+                <div id="appearence" class="settings-screen" style="display: none;">
+                    
+                </div>
+
+                <div id="about" class="settings-screen" style="display: none;">
+                    
+                </div>
+
+                <div id="statusbar">
+                    <a id="save-button" class="common-button">
+                        <span class="button-edge-highlight">Save</span>
+                    </a>
+                    <span id="save-status">Settings saved</span>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

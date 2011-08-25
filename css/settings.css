@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 16px 'Arimo';
+}
+
+h1 {
+    font: bold 28px 'Arimo';
+    color: #727272;
+}
+
+hr {
+    margin-bottom: 1em;
+    height: 2px;
+    border: none;
+    background-color: #727272;
+}
+
+#top-bar {
+    width: auto;
+    height: 120px;
+    background-color: #727272;
+}
+
+#header {
+    width: 800px;
+    margin: auto;
+    position: relative;
+}
+
+.title-part {
+    position: absolute;
+    color: white;
+    text-shadow: black 1px 1px 0;
+}
+
+#title-top {
+    top: 16px;
+    left: 39px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#title-bottom {
+    top: -3px;
+    left: 0;
+    font-size: 60px;
+    font-family: 'JustMeAgainDownHere';
+}
+
+#content-site {
+    width: 800px;
+    margin: -35px auto 0;
+    background-color: #F7F7F7;
+    box-shadow: 0 0 5px 2px #727272;
+}
+
+#navigation {
+    width: 100%;
+    height: 29px;
+}
+
+#navigation li {
+    display: inline-block;
+    -webkit-user-select: none;
+    float: left;
+    width: 33%;
+    cursor: pointer;
+}
+
+#navigation li:last-child {
+    width: 34%;
+}
+
+.tab-border {
+    border: 1px solid #006296;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#AFE3FF), to(#4CC0FF));
+}
+
+.tab-edge-highlight {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.tab-title {
+    padding: 3px;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    color: #006296;
+    text-shadow: white 1px 1px 0;
+}
+
+.settings-screen {
+    padding: 1em;
+}
+
+#statusbar {
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#F7F7F7), to(#E3E3E3));
+    border-top: 1px solid #727272;
+}
+
+a.common-button {
+    display: inline-block;
+    cursor: default;
+    -webkit-user-select: none;
+    font: 14px 'Arimo';
+    border: 1px solid #006BA6;
+    border-radius: 5px;
+    color: #004266;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#F0FAFF), to(#7CD1FF));
+}
+
+a.common-button:active {
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#7CD1FF), to(#F0FAFF));
+}
+
+.button-edge-highlight {
+    display: inline-block;
+    padding: 0.1em 1em;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+}
+
+#save-button {
+    margin: 0.5em 1em;
+}
+
+.shortcut-container {
+    margin-bottom: 1em;
+}
+
+.remove-icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-left: 0.5em;
+}
