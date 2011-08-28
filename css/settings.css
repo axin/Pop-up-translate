@@ -23,6 +23,7 @@ hr {
     width: auto;
     height: 120px;
     background-color: #727272;
+    background-image: url('../img/bgimage.png');
 }
 
 #header {
@@ -97,6 +98,10 @@ hr {
     padding: 1em;
 }
 
+#content {
+    margin-bottom: 50px;
+}
+
 #statusbar {
     background: -webkit-gradient(linear, 0 0, 0 100%, from(#F7F7F7), to(#E3E3E3));
     border-top: 1px solid #727272;
@@ -128,13 +133,14 @@ a.common-button:active {
     margin: 0.5em 1em;
 }
 
-.shortcut-container {
+.shortcut {
     margin-bottom: 1em;
 }
 
 .remove-icon {
     width: 16px;
     height: 16px;
+    cursor: pointer;
     vertical-align: middle;
     margin-left: 0.5em;
 }

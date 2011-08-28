@@ -13,13 +13,15 @@ var PopUp = {
     },
 
     getStyles: function() {
-        return 'div, p, img {' +
+        return '[id ^= "' + PopUp.extId + '"] {' +
             'margin: 0;' +
             'padding: 0;' +
             'border-width: 0;' +
+            'font-family: inherit;' +
+            'font-size: inherit;' +
         '}' +
 
-        'div {' +
+        '#' + PopUp.extId + 'pop-up div {' +
             'width: auto;' +
             'height: auto;' +
         '}' +
@@ -82,8 +84,8 @@ var PopUp = {
         '}' +
 
         '.' + PopUp.extId + 'arrow {' +
-            'width: 20px;' +
-            'height: 20px;' +
+            'width: 20px !important;' +
+            'height: 20px !important;' +
             'position: absolute;' +
             'left: 50%;' +
             'margin-left: -10px;' +
