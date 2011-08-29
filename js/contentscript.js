@@ -16,14 +16,19 @@ var PopUp = {
         return '[id ^= "' + PopUp.extId + '"] {' +
             'margin: 0;' +
             'padding: 0;' +
-            'border-width: 0;' +
+            'border: none;' +
             'font-family: inherit;' +
             'font-size: inherit;' +
+            'background: inherit;' +
         '}' +
 
         '#' + PopUp.extId + 'pop-up div {' +
             'width: auto;' +
             'height: auto;' +
+        '}' +
+        
+        '#' + PopUp.extId + 'pop-up img {' +
+            'background: transparent;' +
         '}' +
         
         '#' + PopUp.extId + 'pop-up {' +

@@ -6,7 +6,6 @@ var appearenceScreen;
 var aboutScreen;
 
 var shortcutContainer;
-var shortcutCounter;
 
 function changeScreen(s) {
     switch (s) {
@@ -49,29 +48,29 @@ function changeScreen(s) {
     }
 }
 
-function addShortcut() {
-    var shortcut = document.createElement('div');
-    shortcut.className = 'shortcut';
+function addShortcut(shortcut) {
+    var shortcutElement = document.createElement('div');
+    shortcutElement.className = 'shortcut';
 
     var keySelect1 = document.createElement('select');
-    shortcut.appendChild(keySelect1);
+    shortcutElement.appendChild(keySelect1);
 
     var text1 = document.createTextNode(' + ');
-    shortcut.appendChild(text1);
+    shortcutElement.appendChild(text1);
 
     var keySelect2 = document.createElement('select');
-    shortcut.appendChild(keySelect2);
+    shortcutElement.appendChild(keySelect2);
 
     var text2 = document.createTextNode(' + Select - Translate to ');
-    shortcut.appendChild(text2);
+    shortcutElement.appendChild(text2);
 
     var languageSelect = document.createElement('select');
-    shortcut.appendChild(languageSelect);
+    shortcutElement.appendChild(languageSelect);
 
     var removeIcon = document.createElement('img');
     removeIcon.className = 'remove-icon';
     removeIcon.setAttribute('src', 'img/remove.png');
-    shortcut.appendChild(removeIcon);
+    shortcutElement.appendChild(removeIcon);
 
     var keys = {
         'none': 'None',
@@ -115,7 +114,7 @@ function addShortcut() {
         languageSelect.appendChild(optionElement);
     }
 
-    shortcutContainer.appendChild(shortcut);
+    shortcutContainer.appendChild(shortcutContainer);
 }
 
 window.onload = function() {
@@ -133,8 +132,27 @@ window.onload = function() {
 
     changeScreen('general');
 
+    with (localStorage) {
+        if (defaultShortcut == undefined) {
+            defaultShortcut = {
+                'key1': 'ctrl',
+                'key2': 'none',
+                'language': 'en'
+            };
+        }
+
+        if (shortcuts == undefined) {
+            shortcuts = new Array();
+            shortcuts[0] = defaultShortcut;
+        }
+        
+        for (var shortcut in shortcuts) {
+            addShortcut(shortcuts[shortcut]);
+        }
+    }
+
     shortcutContainer = document.getElementById('shortcut-container');
 
     var addShortcutButton = document.getElementById('add-shortcut-button');
-    addShortcutButton.addEventListener('click', addShortcut, false);
+    addShortcutButton.addEventListener('click', function() { addShortcut(localStorage.defaultShortcut); }, false);
 }
