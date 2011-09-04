@@ -7,6 +7,9 @@ var aboutScreen;
 
 var shortcutContainer;
 
+var DUPLICATED_SHORTCUTS_ERROR_MESSAGE = 'There is duplicated shortcuts.';
+var SAVE_SUCCESSFULL_MESSAGE = 'Settings saved.';
+
 function changeScreen(s) {
     switch (s) {
         case 'general':
@@ -48,29 +51,49 @@ function changeScreen(s) {
     }
 }
 
-function addShortcut(shortcut) {
+function addShortcutToLocalStore(shortcut) {
+    var shortcuts = JSON.parse(localStorage.shortcuts);
+    var shortcutId = localStorage.lastShortcutId;
+
+    shortcut.id = parseInt(shortcutId) + 1;
+    localStorage.lastShortcutId = shortcut.id;
+
+    shortcuts[shortcuts.length] = shortcut;
+    localStorage.shortcuts = JSON.stringify(shortcuts);
+}
+
+function addShortcutToDocument(shortcut) {
+    var shortcutId = shortcut.id;
+
     var shortcutElement = document.createElement('div');
     shortcutElement.className = 'shortcut';
+    shortcutElement.id = 'shortcut' + shortcutId;
 
     var keySelect1 = document.createElement('select');
+    keySelect1.id = 'keySelect1_' + shortcutId;
     shortcutElement.appendChild(keySelect1);
 
     var text1 = document.createTextNode(' + ');
     shortcutElement.appendChild(text1);
 
     var keySelect2 = document.createElement('select');
+    keySelect2.id = 'keySelect2_' + shortcutId;
     shortcutElement.appendChild(keySelect2);
 
     var text2 = document.createTextNode(' + Select - Translate to ');
     shortcutElement.appendChild(text2);
 
     var languageSelect = document.createElement('select');
+    languageSelect.id = 'languageSelect' + shortcutId;
     shortcutElement.appendChild(languageSelect);
 
-    var removeIcon = document.createElement('img');
-    removeIcon.className = 'remove-icon';
-    removeIcon.setAttribute('src', 'img/remove.png');
-    shortcutElement.appendChild(removeIcon);
+    if (shortcutId != 0) {
+        var removeIcon = document.createElement('img');
+        removeIcon.className = 'remove-icon';
+        removeIcon.setAttribute('src', 'img/remove.png');
+        removeIcon.addEventListener('click', function() { removeShortcut(shortcutId); }, false);
+        shortcutElement.appendChild(removeIcon);
+    }
 
     var keys = {
         'none': 'None',
@@ -98,6 +121,9 @@ function addShortcut(shortcut) {
         keySelect2.appendChild(optionElement2);
     }
 
+    keySelect1.value = shortcut.key1;
+    keySelect2.value = shortcut.key2;
+
     var languages = {
         'ru': 'Russian',
         'en': 'English',
@@ -114,7 +140,88 @@ function addShortcut(shortcut) {
         languageSelect.appendChild(optionElement);
     }
 
-    shortcutContainer.appendChild(shortcutContainer);
+    languageSelect.value = shortcut.language;
+
+    shortcutContainer.appendChild(shortcutElement);
+}
+
+function getShortcutIndexById(shortcuts, shortcutId) {
+    for (var index = 0; index < shortcuts.length; index++) {
+        if (shortcuts[index].id == shortcutId) {
+            return index;
+        }
+    }
+}
+
+function removeShortcut(shortcutId) {
+    var shortcuts = JSON.parse(localStorage.shortcuts);
+    var shortcutElement = document.getElementById('shortcut' + shortcutId);
+
+    // Find shortcut in array.
+    var index = getShortcutIndexById(shortcuts, shortcutId);
+
+    // Remove shortcut from array.
+    shortcuts.splice(index, 1);
+
+    // Save modified array in localStore.
+    localStorage.shortcuts = JSON.stringify(shortcuts);
+
+    // Remove shortcut from document.
+    shortcutContainer.removeChild(shortcutElement);
+}
+
+function wetherDuplicatedShortcutElements() {
+    var shortcutElements = document.getElementsByClassName('shortcut');
+
+    for (var element1Index = 0; element1Index < shortcutElements.length; element1Index++) {
+        for (var element2Index = 0; element2Index < shortcutElements.length; element2Index++) {
+            var element1 = shortcutElements[element1Index];
+            var element2 = shortcutElements[element2Index];
+            var selectElements1 = element1.getElementsByTagName('select');
+            var selectElements2 = element2.getElementsByTagName('select');
+
+            if ((selectElements1[0].value == selectElements2[0].value) &&
+                (selectElements1[1].value == selectElements2[1].value) &&
+                (selectElements1[2].value == selectElements2[2].value)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function saveShortcuts() {
+    var shortcuts = JSON.parse(localStorage.shortcuts);
+    var shortcutElements = document.getElementsByClassName('shortcut');
+
+    if (wetherDuplicatedShortcutElements()) {
+        return { 'successfull': false, 'message': DUPLICATED_SHORTCUTS_ERROR_MESSAGE };
+    }
+
+    for (var elementIndex = 0; elementIndex < shortcutElements.length; elementIndex++) {
+        var shortcutElement = shortcutElements[elementIndex];
+        var shortcutId = parseInt(shortcutElement.id.substr(8));
+        var shortcutIndex = getShortcutIndexById(shortcuts, shortcutId);
+        var selectElements = shortcutElement.getElementsByTagName('select');
+
+        shortcuts[shortcutIndex].key1 = selectElements[0].value;
+        shortcuts[shortcutIndex].key2 = selectElements[1].value;
+        shortcuts[shortcutIndex].language = selectElements[2].value;
+    }
+
+    localStorage.shortcuts = JSON.stringify(shortcuts);
+
+    return { 'successfull': true };
+}
+
+function saveSettings() {
+    if (saveShortcuts().successfull == false) {
+        window.alert('Error!');
+    }
+    else {
+        window.alert('Success!');
+    }
 }
 
 window.onload = function() {
@@ -130,29 +237,43 @@ window.onload = function() {
     appearenceTab.addEventListener('click', function () { changeScreen('appearence'); }, false);
     aboutTab.addEventListener('click', function () { changeScreen('about'); }, false);
 
+    shortcutContainer = document.getElementById('shortcut-container');
+
     changeScreen('general');
 
-    with (localStorage) {
-        if (defaultShortcut == undefined) {
-            defaultShortcut = {
-                'key1': 'ctrl',
-                'key2': 'none',
-                'language': 'en'
-            };
-        }
+    var defaultShortcut = {
+        'key1': 'ctrl',
+        'key2': 'none',
+        'language': 'en'
+    }
 
-        if (shortcuts == undefined) {
-            shortcuts = new Array();
-            shortcuts[0] = defaultShortcut;
-        }
-        
+    if (('defaultShortcut' in localStorage) == false) {
+        localStorage.defaultShortcut = JSON.stringify(defaultShortcut);
+    }
+
+    // If shortcuts is empty, add default shortcut.
+    if (('shortcuts' in localStorage) == false) {
+        var shortcuts = [];
+        localStorage.shortcuts = JSON.stringify(shortcuts);
+        localStorage.lastShortcutId = -1;
+
+        addShortcutToLocalStore(defaultShortcut);
+        addShortcutToDocument(defaultShortcut);
+    }
+    // Else add to document all exesting shortcuts.
+    else {
+        shortcuts = JSON.parse(localStorage.shortcuts);
         for (var shortcut in shortcuts) {
-            addShortcut(shortcuts[shortcut]);
+            addShortcutToDocument(shortcuts[shortcut]);
         }
     }
 
-    shortcutContainer = document.getElementById('shortcut-container');
-
     var addShortcutButton = document.getElementById('add-shortcut-button');
-    addShortcutButton.addEventListener('click', function() { addShortcut(localStorage.defaultShortcut); }, false);
+    addShortcutButton.addEventListener('click', function() {
+                                       addShortcutToLocalStore(defaultShortcut);
+                                       addShortcutToDocument(defaultShortcut);
+                                       }, false);
+
+    var saveButton = document.getElementById('save-button');
+    saveButton.addEventListener('click', saveSettings, false);
 }

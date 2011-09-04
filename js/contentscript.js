@@ -19,7 +19,7 @@ var PopUp = {
             'border: none;' +
             'font-family: inherit;' +
             'font-size: inherit;' +
-            'background: inherit;' +
+            'line-height: normal;' +
         '}' +
 
         '#' + PopUp.extId + 'pop-up div {' +
@@ -28,7 +28,7 @@ var PopUp = {
         '}' +
         
         '#' + PopUp.extId + 'pop-up img {' +
-            'background: transparent;' +
+            'background: transparent !important;' +
         '}' +
         
         '#' + PopUp.extId + 'pop-up {' +
