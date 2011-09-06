@@ -175,15 +175,16 @@ function wetherDuplicatedShortcutElements() {
 
     for (var element1Index = 0; element1Index < shortcutElements.length; element1Index++) {
         for (var element2Index = 0; element2Index < shortcutElements.length; element2Index++) {
-            var element1 = shortcutElements[element1Index];
-            var element2 = shortcutElements[element2Index];
-            var selectElements1 = element1.getElementsByTagName('select');
-            var selectElements2 = element2.getElementsByTagName('select');
+            if (element1Index != element2Index) {
+                var element1 = shortcutElements[element1Index];
+                var element2 = shortcutElements[element2Index];
+                var selectElements1 = element1.getElementsByTagName('select');
+                var selectElements2 = element2.getElementsByTagName('select');
 
-            if ((selectElements1[0].value == selectElements2[0].value) &&
-                (selectElements1[1].value == selectElements2[1].value) &&
-                (selectElements1[2].value == selectElements2[2].value)) {
-                return true;
+                if ((selectElements1[0].value == selectElements2[0].value) &&
+                    (selectElements1[1].value == selectElements2[1].value)) {
+                    return true;
+                }
             }
         }
     }
@@ -196,7 +197,7 @@ function saveShortcuts() {
     var shortcutElements = document.getElementsByClassName('shortcut');
 
     if (wetherDuplicatedShortcutElements()) {
-        return { 'successfull': false, 'message': DUPLICATED_SHORTCUTS_ERROR_MESSAGE };
+        return { 'successfull': false, 'errorMessage': DUPLICATED_SHORTCUTS_ERROR_MESSAGE };
     }
 
     for (var elementIndex = 0; elementIndex < shortcutElements.length; elementIndex++) {
@@ -215,12 +216,47 @@ function saveShortcuts() {
     return { 'successfull': true };
 }
 
-function saveSettings() {
-    if (saveShortcuts().successfull == false) {
-        window.alert('Error!');
+var timer = null;
+function fadeElement(element) {
+    if (timer == null) {
+        element.style.visibility = 'visible';
+    }
+
+    if (opacity > 0.015) {
+        timer = setTimeout(fadeElement(element), 20);
+        var opacity = parseFloat(element.style.opacity);
+        element.style.opacity = opacity - 0.01;
     }
     else {
-        window.alert('Success!');
+        clearTimeout(timer);
+        element.style.visibility = 'hidden';
+        timer = null;
+    }
+}
+
+function showStatusMessage(message, isErrorMessage) {
+    var saveStatusElement = document.getElementById('save-status');
+
+    saveStatusElement.innerText = message;
+
+    if (isErrorMessage) {
+        saveStatusElement.style.color = 'red';
+    }
+    else {
+        saveStatusElement.style.color = 'green';
+    }
+
+    setTimeout(function() { fadeElement(saveStatusElement) }, 3000);
+}
+
+function saveSettings() {
+    var s = saveShortcuts();
+
+    if (s.successfull == false) {
+        showStatusMessage(s.errorMessage, true);
+    }
+    else {
+        showStatusMessage(SAVE_SUCCESSFULL_MESSAGE, false);
     }
 }
 
