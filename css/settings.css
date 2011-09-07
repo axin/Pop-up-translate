@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-    font: bold 28px 'Arimo';
+    font: bold 24px 'Arimo';
     color: #727272;
 }
 
@@ -145,4 +145,20 @@ a.common-button:active {
     cursor: pointer;
     vertical-align: middle;
     margin-left: 0.5em;
+}
+
+#appearence-settings-list {
+    margin-right: 500px;
+}
+
+#appearence-settings-list div:last-child {
+    margin-bottom: 0;
+}
+
+.appearence-settings-list-label {
+    margin-bottom: 0.5em;
+}
+
+.appearence-settings-list-element {
+    margin-bottom: 1em;
 }
