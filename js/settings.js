@@ -7,24 +7,29 @@ var aboutScreen;
 
 var shortcutContainer;
 
-var DUPLICATED_SHORTCUTS_ERROR_MESSAGE = 'There is duplicated shortcuts.';
-var SAVE_SUCCESSFULL_MESSAGE = 'Settings saved.';
+var DUPLICATED_SHORTCUTS_ERROR_MESSAGE = 'There is duplicated shortcuts';
+var SAVE_SUCCESSFULL_MESSAGE = 'Settings saved';
 
 function changeScreen(s) {
+    var statusBar = document.getElementById('statusbar');
+
     switch (s) {
         case 'general':
             var tab = generalTab;
             var screen = generalScreen;
+    		statusBar.style.display = 'block';
             break;
 
         case 'appearence':
             var tab = appearenceTab;
             var screen = appearenceScreen;
+			statusBar.style.display = 'block';
             break;
 
         case 'about':
             var tab = aboutTab;
             var screen = aboutScreen;
+			statusBar.style.display = 'none';
             break;
     }
     
@@ -279,6 +284,15 @@ function saveSettings() {
     }
 }
 
+function turnIntoColorSelect(element) {
+    with (element.style) {
+        display = 'inline-block';
+        width = '150px';
+        height = '25px';
+        backgroundColor = 'red';
+    }
+}
+
 window.onload = function() {
     generalTab = document.getElementById('general-tab');
     appearenceTab = document.getElementById('appearence-tab');
@@ -347,6 +361,11 @@ window.onload = function() {
                                        addShortcutToDocument(defaultShortcut);
                                        }, false);
 
+    var colorSelectElements = document.getElementsByClassName('color-select');
+    for (var index = 0; index < colorSelectElements.length; index++) {
+        turnIntoColorSelect(colorSelectElements[index]);
+    }
+                                       
     var saveButton = document.getElementById('save-button');
     saveButton.addEventListener('click', saveSettings, false);
 }
