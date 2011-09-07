@@ -104,13 +104,15 @@ function addShortcutToDocument(shortcut) {
     }
 
     for (var key in keys) {
-        var optionText1 = document.createTextNode(keys[key]);
-        var optionElement1 = document.createElement('option');
+        if (key != 'none') {
+            var optionText1 = document.createTextNode(keys[key]);
+            var optionElement1 = document.createElement('option');
 
-        optionElement1.setAttribute('value', key);
-        optionElement1.appendChild(optionText1);
+            optionElement1.setAttribute('value', key);
+            optionElement1.appendChild(optionText1);
 
-        keySelect1.appendChild(optionElement1);
+            keySelect1.appendChild(optionElement1);
+        }
 
         var optionText2 = document.createTextNode(keys[key]);
         var optionElement2 = document.createElement('option');
@@ -160,8 +162,7 @@ function removeShortcut(shortcutId) {
     // Find shortcut in array.
     var index = getShortcutIndexById(shortcuts, shortcutId);
 
-    // Remove shortcut from array.
-    shortcuts.splice(index, 1);
+    shortcuts[index].removed = true;
 
     // Save modified array in localStore.
     localStorage.shortcuts = JSON.stringify(shortcuts);
@@ -200,6 +201,14 @@ function saveShortcuts() {
         return { 'successfull': false, 'errorMessage': DUPLICATED_SHORTCUTS_ERROR_MESSAGE };
     }
 
+    // Remove shortcuts
+    for (var index = 0; index < shortcuts.length; index++) {
+        if (shortcuts[index].removed == true) {
+            // Remove shortcut from array.
+            shortcuts.splice(index, 1);
+        }
+    }
+
     for (var elementIndex = 0; elementIndex < shortcutElements.length; elementIndex++) {
         var shortcutElement = shortcutElements[elementIndex];
         var shortcutId = parseInt(shortcutElement.id.substr(8));
@@ -209,6 +218,7 @@ function saveShortcuts() {
         shortcuts[shortcutIndex].key1 = selectElements[0].value;
         shortcuts[shortcutIndex].key2 = selectElements[1].value;
         shortcuts[shortcutIndex].language = selectElements[2].value;
+        shortcuts[shortcutIndex].saved = true;
     }
 
     localStorage.shortcuts = JSON.stringify(shortcuts);
@@ -220,12 +230,13 @@ var timer = null;
 function fadeElement(element) {
     if (timer == null) {
         element.style.visibility = 'visible';
+        element.style.opacity = '1';
     }
 
+    var opacity = parseFloat(element.style.opacity);
     if (opacity > 0.015) {
-        timer = setTimeout(fadeElement(element), 20);
-        var opacity = parseFloat(element.style.opacity);
         element.style.opacity = opacity - 0.01;
+        timer = setTimeout(function() { fadeElement(element); }, 20);
     }
     else {
         clearTimeout(timer);
@@ -234,6 +245,7 @@ function fadeElement(element) {
     }
 }
 
+var showTimer = null;
 function showStatusMessage(message, isErrorMessage) {
     var saveStatusElement = document.getElementById('save-status');
 
@@ -246,7 +258,14 @@ function showStatusMessage(message, isErrorMessage) {
         saveStatusElement.style.color = 'green';
     }
 
-    setTimeout(function() { fadeElement(saveStatusElement) }, 3000);
+    clearTimeout(timer);
+    timer = null;
+    if (showTimer != null) {
+        clearTimeout(showTimer);
+    }
+    saveStatusElement.style.visibility = 'visible';
+    saveStatusElement.style.opacity = '1';
+    showTimer = setTimeout(function() { fadeElement(saveStatusElement); }, 3000);
 }
 
 function saveSettings() {
@@ -280,7 +299,9 @@ window.onload = function() {
     var defaultShortcut = {
         'key1': 'ctrl',
         'key2': 'none',
-        'language': 'en'
+        'language': 'en',
+        'saved': false,
+        'removed': false
     }
 
     if (('defaultShortcut' in localStorage) == false) {
@@ -293,15 +314,31 @@ window.onload = function() {
         localStorage.shortcuts = JSON.stringify(shortcuts);
         localStorage.lastShortcutId = -1;
 
-        addShortcutToLocalStore(defaultShortcut);
-        addShortcutToDocument(defaultShortcut);
+        var shortcut = defaultShortcut;
+        shortcut.saved = true;
+        addShortcutToLocalStore(shortcut);
+        addShortcutToDocument(shortcut);
     }
     // Else add to document all exesting shortcuts.
     else {
         shortcuts = JSON.parse(localStorage.shortcuts);
         for (var shortcut in shortcuts) {
-            addShortcutToDocument(shortcuts[shortcut]);
+            shortcuts[shortcut].removed = false;
+            if (shortcuts[shortcut].saved == true) {
+                addShortcutToDocument(shortcuts[shortcut]);
+            }
         }
+
+        for (var shortcut in shortcuts) {
+            if (shortcuts[shortcut].saved == false) {
+                // Find shortcut in array.
+                var index = getShortcutIndexById(shortcuts, shortcuts[shortcut].id);
+
+                // Remove shortcut from array.
+                shortcuts.splice(index, 1);
+            }
+        }
+        localStorage.shortcuts = JSON.stringify(shortcuts);
     }
 
     var addShortcutButton = document.getElementById('add-shortcut-button');
