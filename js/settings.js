@@ -10,6 +10,17 @@ var shortcutContainer;
 var DUPLICATED_SHORTCUTS_ERROR_MESSAGE = 'There is duplicated shortcuts';
 var SAVE_SUCCESSFULL_MESSAGE = 'Settings saved';
 
+function cloneObject(obj) {
+    var newObj = (obj instanceof Array) ? [] : {};
+
+    for (var i in obj) {
+        if (i == 'clone') continue;
+        if (obj[i] && typeof obj[i] == 'object') {
+            newObj[i] = obj[i].clone();
+        } else newObj[i] = obj[i];
+    } return newObj;
+};
+
 function changeScreen(s) {
     var statusBar = document.getElementById('statusbar');
 
@@ -17,22 +28,22 @@ function changeScreen(s) {
         case 'general':
             var tab = generalTab;
             var screen = generalScreen;
-    		statusBar.style.display = 'block';
+            statusBar.style.display = 'block';
             break;
 
         case 'appearence':
             var tab = appearenceTab;
             var screen = appearenceScreen;
-			statusBar.style.display = 'block';
+            statusBar.style.display = 'block';
             break;
 
         case 'about':
             var tab = aboutTab;
             var screen = aboutScreen;
-			statusBar.style.display = 'none';
+            statusBar.style.display = 'none';
             break;
     }
-    
+
     var tabs = [generalTab, appearenceTab, aboutTab];
     var screens = [generalScreen, appearenceScreen, aboutScreen];
 
@@ -328,10 +339,10 @@ window.onload = function() {
         localStorage.shortcuts = JSON.stringify(shortcuts);
         localStorage.lastShortcutId = -1;
 
-        var shortcut = defaultShortcut;
-        shortcut.saved = true;
-        addShortcutToLocalStore(shortcut);
-        addShortcutToDocument(shortcut);
+        var firstShortcut = cloneObject(defaultShortcut);
+        firstShortcut.saved = true;
+        addShortcutToLocalStore(firstShortcut);
+        addShortcutToDocument(firstShortcut);
     }
     // Else add to document all exesting shortcuts.
     else {
