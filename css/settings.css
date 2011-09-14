@@ -162,3 +162,9 @@ a.common-button:active {
 .appearence-settings-list-element {
     margin-bottom: 1em;
 }
+
+#pop-up-preview {
+    float: right;
+    width: 500px;
+    height: 100%;
+}

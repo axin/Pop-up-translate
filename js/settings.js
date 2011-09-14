@@ -295,13 +295,98 @@ function saveSettings() {
     }
 }
 
-function turnIntoColorSelect(element) {
+function turnIntoColorSelect(element, defaultColor) {
+    var colorChangedEvent = document.createEvent('Events');
+    colorChangedEvent.initEvent('colorchanged', true, true);
+
+    element.hexColor = defaultColor;
+
     with (element.style) {
         display = 'inline-block';
-        width = '150px';
-        height = '25px';
-        backgroundColor = 'red';
+        width = '90px';
+        height = '23px';
+        position = 'relative';
+        border = '1px solid #727272';
+        borderRadius = '3px';
     }
+
+    var colors = ['#FCE94F', '#EDD400', '#C4A000', '#C4A000', '#F57900', '#CE5C00',
+                  '#E9B96E', '#C17D11', '#8F5902', '#8AE234', '#73D216', '#4E9A06',
+                  '#729FCF', '#3465A4', '#204A87', '#AD7FA8', '#75507B', '#5C3566',
+                  '#EF2929', '#CC0000', '#A40000', '#EEEEEC', '#D3D7CF', '#BABDB6',
+                  '#888A85', '#666666', '#555753', '#2E3436', '#FFFFFF', '#000000'];
+
+    var colorValueElemnt = document.createElement('input');
+    colorValueElemnt.setAttribute('type', 'text');
+    colorValueElemnt.setAttribute('value', defaultColor);
+    colorValueElemnt.disabled = true;
+    with (colorValueElemnt.style) {
+        border = 'none';
+        borderRadius = '3px';
+        outline = 'none';
+        display = 'block';
+        width = '67px';
+        height = '100%';
+        marginLeft = '23px';
+    }
+
+    element.appendChild(colorValueElemnt);
+
+    var colorSquareElement = document.createElement('div');
+    colorSquareElement.addEventListener('click',
+                                        function() { colorPalleteElemet.style.display = 'block'; },
+                                        false);
+    with (colorSquareElement.style) {
+        position = 'absolute';
+        left = '0';
+        top = '0';
+        margin = '2px';
+        dispalay = 'inline-block';
+        width = '19px';
+        height = '19px';
+        borderRadius = '3px';
+        backgroundColor = defaultColor;
+    }
+
+    var colorPalleteElemet = document.createElement('div');
+    with (colorPalleteElemet.style) {
+        display = 'none';
+        position = 'absolute';
+        left = '0';
+        top = '25px';
+        padding = '5px 2px 2px 5px';
+        backgroundColor = 'white';
+        border = '1px solid #727272';
+        width = '120px';
+        zIndex = '999999';
+    }
+
+    for (var colorIndex = 0; colorIndex < colors.length; colorIndex++) {
+        var colorElement = document.createElement('div');
+        colorElement.colorIndex = colorIndex;
+        with (colorElement.style) {
+            width = '15px';
+            height = '15px';
+            display = 'inline-block';
+            border = '1px solid black';
+            float = 'left';
+            margin = '0 3px 3px 0';
+            backgroundColor = colors[colorIndex];
+        }
+
+        colorElement.addEventListener('click', function(e) { colorSquareElement.style.backgroundColor =
+                                                            colors[this.colorIndex];
+                                                            colorPalleteElemet.style.display = 'none';
+                                                            colorValueElemnt.value = colors[this.colorIndex];
+                                                            element.hexColor = colors[this.colorIndex];
+                                                            element.dispatchEvent(colorChangedEvent);
+                                                            e.stopPropagation(); },
+                                                            false);
+        colorPalleteElemet.appendChild(colorElement);
+    }
+
+    colorSquareElement.appendChild(colorPalleteElemet);
+    element.appendChild(colorSquareElement);
 }
 
 window.onload = function() {
@@ -374,7 +459,7 @@ window.onload = function() {
 
     var colorSelectElements = document.getElementsByClassName('color-select');
     for (var index = 0; index < colorSelectElements.length; index++) {
-        turnIntoColorSelect(colorSelectElements[index]);
+        turnIntoColorSelect(colorSelectElements[index], '#FFFFFF');
     }
                                        
     var saveButton = document.getElementById('save-button');
