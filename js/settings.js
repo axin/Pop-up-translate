@@ -451,17 +451,59 @@ window.onload = function() {
         localStorage.shortcuts = JSON.stringify(shortcuts);
     }
 
+    var defaultAppearence =  {
+        fontFamily: 'sans-serif',
+        fontSize: '18px',
+        fontColor: '#727272',
+        backgroundColor: '#E3E3E3',
+        shadowColor: '#3C81FF'
+    }
+
+    if (('appearence' in localStorage) == false) {
+        localStorage.appearence = JSON.stringify(defaultAppearence);
+    }
+
+    var appearence = JSON.parse(localStorage.appearence);
+
+    var popUp = document.getElementById('pop-up');
+    popUp.style.fontFamily = appearence.fontFamily;
+    popUp.style.fontSize = appearence.fontSize;
+
+    var bubble = document.getElementById('bubble');
+    bubble.style.backgroundColor = appearence.backgroundColor;
+
+    var bubbleShadow = document.getElementById('bubble-shadow');
+    bubbleShadow.style.backgroundColor = appearence.backgroundColor;
+    bubbleShadow.style.boxShadow = '0 0 5px 1px ' +  appearence.shadowColor;
+
+    var arrowDown = document.getElementById('arrow-down');
+    arrowDown.style.backgroundColor = appearence.backgroundColor;
+    arrowDown.style.boxShadow = '0 0 5px 1px ' +  appearence.shadowColor;
+
+    var translation = document.getElementById('translation');
+    translation.style.color = appearence.fontColor;
+
     var addShortcutButton = document.getElementById('add-shortcut-button');
     addShortcutButton.addEventListener('click', function() {
                                        addShortcutToLocalStore(defaultShortcut);
                                        addShortcutToDocument(defaultShortcut);
                                        }, false);
 
-    var colorSelectElements = document.getElementsByClassName('color-select');
-    for (var index = 0; index < colorSelectElements.length; index++) {
-        turnIntoColorSelect(colorSelectElements[index], '#FFFFFF');
-    }
-                                       
+    var fontSelect = document.getElementById('font-select');
+    fontSelect = appearence.fontFamily;
+
+    var fontSizeSelect = document.getElementById('font-size-select');
+    fontSizeSelect.value = appearence.fontSize;
+
+    var fontColorSelect = document.getElementById('font-color-select');
+    turnIntoColorSelect(fontColorSelect, appearence.fontColor);
+
+    var backgroundColorSelect = document.getElementById('background-color-select');
+    turnIntoColorSelect(backgroundColorSelect, appearence.backgroundColor);
+
+    var shadowColorSelect = document.getElementById('shadow-color-select');
+    turnIntoColorSelect(shadowColorSelect, appearence.shadowColor);
+
     var saveButton = document.getElementById('save-button');
     saveButton.addEventListener('click', saveSettings, false);
 }
