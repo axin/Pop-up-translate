@@ -295,12 +295,29 @@ function saveSettings() {
     }
 }
 
-function turnIntoColorSelect(element, defaultColor) {
-    var colorChangedEvent = document.createEvent('Events');
-    colorChangedEvent.initEvent('colorchanged', true, true);
+function changeColor(color) {
+    var bubble = document.getElementById('bubble'),
+        bubbleShadow = document.getElementById('bubble-shadow'),
+        arrowDown = document.getElementById('arrow-down'),
+        translation = document.getElementById('translation');
 
-    element.hexColor = defaultColor;
+    switch (this.id) {
+    case 'font-color-select':
+        translation.style.color = color;
+        break;
+    case 'background-color-select':
+        bubble.style.backgroundColor = color;
+        bubbleShadow.style.backgroundColor = color;
+        arrowDown.style.backgroundColor = color;
+        break;
+    case 'shadow-color-select':
+        bubbleShadow.style.boxShadow = '0 0 5px 1px ' +  color;
+        arrowDown.style.boxShadow = '0 0 5px 1px ' +  color;
+        break;
+    }
+}
 
+function turnIntoColorSelect(element, defaultColor, callback) {
     with (element.style) {
         display = 'inline-block';
         width = '90px';
@@ -378,8 +395,7 @@ function turnIntoColorSelect(element, defaultColor) {
                                                             colors[this.colorIndex];
                                                             colorPalleteElemet.style.display = 'none';
                                                             colorValueElemnt.value = colors[this.colorIndex];
-                                                            element.hexColor = colors[this.colorIndex];
-                                                            element.dispatchEvent(colorChangedEvent);
+                                                            callback.call(element, colors[this.colorIndex]);
                                                             e.stopPropagation(); },
                                                             false);
         colorPalleteElemet.appendChild(colorElement);
@@ -465,6 +481,21 @@ window.onload = function() {
 
     var appearence = JSON.parse(localStorage.appearence);
 
+    var fontSelect = document.getElementById('font-select');
+    fontSelect = appearence.fontFamily;
+
+    var fontSizeSelect = document.getElementById('font-size-select');
+    fontSizeSelect.value = appearence.fontSize;
+
+    var fontColorSelect = document.getElementById('font-color-select');
+    turnIntoColorSelect(fontColorSelect, appearence.fontColor, changeColor);
+
+    var backgroundColorSelect = document.getElementById('background-color-select');
+    turnIntoColorSelect(backgroundColorSelect, appearence.backgroundColor, changeColor);
+
+    var shadowColorSelect = document.getElementById('shadow-color-select');
+    turnIntoColorSelect(shadowColorSelect, appearence.shadowColor, changeColor);
+
     var popUp = document.getElementById('pop-up');
     popUp.style.fontFamily = appearence.fontFamily;
     popUp.style.fontSize = appearence.fontSize;
@@ -488,21 +519,6 @@ window.onload = function() {
                                        addShortcutToLocalStore(defaultShortcut);
                                        addShortcutToDocument(defaultShortcut);
                                        }, false);
-
-    var fontSelect = document.getElementById('font-select');
-    fontSelect = appearence.fontFamily;
-
-    var fontSizeSelect = document.getElementById('font-size-select');
-    fontSizeSelect.value = appearence.fontSize;
-
-    var fontColorSelect = document.getElementById('font-color-select');
-    turnIntoColorSelect(fontColorSelect, appearence.fontColor);
-
-    var backgroundColorSelect = document.getElementById('background-color-select');
-    turnIntoColorSelect(backgroundColorSelect, appearence.backgroundColor);
-
-    var shadowColorSelect = document.getElementById('shadow-color-select');
-    turnIntoColorSelect(shadowColorSelect, appearence.shadowColor);
 
     var saveButton = document.getElementById('save-button');
     saveButton.addEventListener('click', saveSettings, false);
