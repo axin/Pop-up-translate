@@ -242,6 +242,18 @@ function saveShortcuts() {
     return { 'successfull': true };
 }
 
+function saveAppearence() {
+    var appearence = {};
+
+    appearence.fontFamily = document.getElementById('font-select').value;
+    appearence.fontSize = document.getElementById('font-size-select').value;
+    appearence.fontColor = document.getElementById('font-color-select').hexColor;
+    appearence.backgroundColor = document.getElementById('background-color-select').hexColor;
+    appearence.shadowColor = document.getElementById('shadow-color-select').hexColor;
+
+    localStorage.appearence = JSON.stringify(appearence);
+}
+
 var timer = null;
 function fadeElement(element) {
     if (timer == null) {
@@ -287,6 +299,8 @@ function showStatusMessage(message, isErrorMessage) {
 function saveSettings() {
     var s = saveShortcuts();
 
+    saveAppearence();
+
     if (s.successfull == false) {
         showStatusMessage(s.errorMessage, true);
     }
@@ -326,6 +340,8 @@ function turnIntoColorSelect(element, defaultColor, callback) {
         border = '1px solid #727272';
         borderRadius = '3px';
     }
+
+    element.hexColor = defaultColor;
 
     var colors = ['#FCE94F', '#EDD400', '#C4A000', '#C4A000', '#F57900', '#CE5C00',
                   '#E9B96E', '#C17D11', '#8F5902', '#8AE234', '#73D216', '#4E9A06',
@@ -396,6 +412,7 @@ function turnIntoColorSelect(element, defaultColor, callback) {
                                                             colorPalleteElemet.style.display = 'none';
                                                             colorValueElemnt.value = colors[this.colorIndex];
                                                             callback.call(element, colors[this.colorIndex]);
+                                                            element.hexColor = colors[this.colorIndex];
                                                             e.stopPropagation(); },
                                                             false);
         colorPalleteElemet.appendChild(colorElement);
@@ -481,21 +498,6 @@ window.onload = function() {
 
     var appearence = JSON.parse(localStorage.appearence);
 
-    var fontSelect = document.getElementById('font-select');
-    fontSelect = appearence.fontFamily;
-
-    var fontSizeSelect = document.getElementById('font-size-select');
-    fontSizeSelect.value = appearence.fontSize;
-
-    var fontColorSelect = document.getElementById('font-color-select');
-    turnIntoColorSelect(fontColorSelect, appearence.fontColor, changeColor);
-
-    var backgroundColorSelect = document.getElementById('background-color-select');
-    turnIntoColorSelect(backgroundColorSelect, appearence.backgroundColor, changeColor);
-
-    var shadowColorSelect = document.getElementById('shadow-color-select');
-    turnIntoColorSelect(shadowColorSelect, appearence.shadowColor, changeColor);
-
     var popUp = document.getElementById('pop-up');
     popUp.style.fontFamily = appearence.fontFamily;
     popUp.style.fontSize = appearence.fontSize;
@@ -513,6 +515,29 @@ window.onload = function() {
 
     var translation = document.getElementById('translation');
     translation.style.color = appearence.fontColor;
+
+    var fontSelect = document.getElementById('font-select');
+    fontSelect.value = appearence.fontFamily;
+    fontSelect.addEventListener('change', function () {
+        popUp.style.fontFamily = fontSelect.value;
+    },
+    false);
+
+    var fontSizeSelect = document.getElementById('font-size-select');
+    fontSizeSelect.value = appearence.fontSize;
+    fontSizeSelect.addEventListener('change', function () {
+        popUp.style.fontSize = fontSizeSelect.value;
+    },
+    false);
+
+    var fontColorSelect = document.getElementById('font-color-select');
+    turnIntoColorSelect(fontColorSelect, appearence.fontColor, changeColor);
+
+    var backgroundColorSelect = document.getElementById('background-color-select');
+    turnIntoColorSelect(backgroundColorSelect, appearence.backgroundColor, changeColor);
+
+    var shadowColorSelect = document.getElementById('shadow-color-select');
+    turnIntoColorSelect(shadowColorSelect, appearence.shadowColor, changeColor);
 
     var addShortcutButton = document.getElementById('add-shortcut-button');
     addShortcutButton.addEventListener('click', function() {
