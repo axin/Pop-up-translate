@@ -423,6 +423,18 @@ function turnIntoColorSelect(element, defaultColor, callback) {
 }
 
 window.onload = function() {
+    chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
+        var settings = {};
+
+        settings.extId = 'ipgccjoekgalifmnmoolgojgaaofkgab';
+        settings.bingAppId = 'FEA3B73DEA9F7A311924116269D3094501970811';
+        settigs.appearence = JSON.parse(localStorage.appearence);
+
+        if (request === 'settings') {
+            sendResponse(settings);
+        }
+    });
+
     generalTab = document.getElementById('general-tab');
     appearenceTab = document.getElementById('appearence-tab');
     aboutTab = document.getElementById('about-tab');

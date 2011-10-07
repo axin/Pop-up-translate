@@ -1,6 +1,6 @@
 var PopUp = {
-    extId: 'ipgccjoekgalifmnmoolgojgaaofkgab',
-    bingAppId: 'FEA3B73DEA9F7A311924116269D3094501970811',
+    extId: '',
+    bingAppId: '',
 
     addedToDocument: false,
 
@@ -163,6 +163,19 @@ var PopUp = {
         }
     },
 
+    getSettings: function () {
+        chrome.extension.sendRequest('settings', function (settings) {
+                debugger;
+            if (settings !== {}) {
+                PopUp.extId = settings.extId;
+                PopUp.bingAppId = settings.bingAppId;
+                PopUp.Appearence = settings.appearence;
+            } else {
+                // Error!
+            }
+        });
+    },
+
     // This function triggers when window's onclick event occures.
     // It shows/hides pop-up depending if some text is selected or not.
     toggle: function(e) {
@@ -182,6 +195,7 @@ var PopUp = {
     }
 }
 
+PopUp.getSettings();
 PopUp.addToDocument();
 
 window.addEventListener('click', PopUp.toggle, false);
